@@ -1,5 +1,6 @@
 package com.leonardo.payments.model;
 
+import com.leonardo.payments.anotações.isUnique;
 import com.leonardo.payments.model.DTO.UserRequest;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
@@ -12,7 +13,7 @@ public class User extends People {
 
     @NotBlank
     @org.hibernate.validator.constraints.br.CPF
-    @jakarta.persistence.Column(unique = true)
+    @isUnique(fieldName = "cpf", domainClass = User.class, message = "cpf")
     private String CPF;
 
     public User(String CPF, String nome, String senha, String telefone, String email) {

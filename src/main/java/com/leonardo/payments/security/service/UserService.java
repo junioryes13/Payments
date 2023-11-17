@@ -17,19 +17,25 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    private UserRepository UserRepository;
+    private UserRepository userRepository;
 
-    public PersonalReturn salvar(UserRequest request){
-        User User = new User( request);
-        return new PersonalReturn(true, "Sucess", Optional.of(UserRepository.save(User)));
+    public User salvar(UserRequest request){
+        User user = new User( request);
+        userRepository.save(user);
+        return user;
     }
 
 
     public List<UserResponse> listarTodos() {
-        List<User> UserList = UserRepository.findAll();
+        List<User> UserList = userRepository.findAll();
         Iterator<User> iteratorDeNomes = UserList.iterator();
         List<UserResponse> listaConvertidaDoIterator = new ArrayList<>();
         iteratorDeNomes.forEachRemaining(n -> listaConvertidaDoIterator.add(new UserResponse(n)));
         return listaConvertidaDoIterator;
+    }
+
+    public Optional<User> findById(int id) {
+            Optional<User> resultado = userRepository.findById(id);
+            return  resultado;
     }
 }

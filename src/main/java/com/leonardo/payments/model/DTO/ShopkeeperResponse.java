@@ -12,6 +12,8 @@ public class ShopkeeperResponse {
 
     private String CNPJ;
 
+    private double saldo;
+
     public String getNome() {
         return nome;
     }
@@ -33,5 +35,6 @@ public class ShopkeeperResponse {
         this.CNPJ = shopkeeper.getCNPJ();
         this.email = shopkeeper.getEmail();
         this.telefone = shopkeeper.getTelefone();
+        this.saldo = shopkeeper.getSaldo();
     }
 }

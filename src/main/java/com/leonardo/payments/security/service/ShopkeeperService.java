@@ -4,6 +4,7 @@ import com.leonardo.payments.model.DTO.ShopkeeperRequest;
 import com.leonardo.payments.model.DTO.ShopkeeperResponse;
 import com.leonardo.payments.model.PersonalReturn;
 import com.leonardo.payments.model.Shopkeeper;
+import com.leonardo.payments.model.User;
 import com.leonardo.payments.repository.ShopkeeperRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,10 @@ public class ShopkeeperService {
     @Autowired
     private ShopkeeperRepository shopkeeperRepository;
 
-    public PersonalReturn salvar(ShopkeeperRequest request){
+    public Shopkeeper salvar(ShopkeeperRequest request){
         Shopkeeper shopkeeper = new Shopkeeper( request);
-        return new PersonalReturn(true, "Sucess", Optional.of(shopkeeperRepository.save(shopkeeper)));
+        shopkeeperRepository.save(shopkeeper);
+       return shopkeeper;
     }
 
 
@@ -31,5 +33,10 @@ public class ShopkeeperService {
         List<ShopkeeperResponse> listaConvertidaDoIterator = new ArrayList<>();
         iteratorDeNomes.forEachRemaining(n -> listaConvertidaDoIterator.add(new ShopkeeperResponse(n)));
         return listaConvertidaDoIterator;
+    }
+
+    public Optional<Shopkeeper> findById(int id) {
+        Optional<Shopkeeper> resultado = shopkeeperRepository.findById(id);
+        return  resultado;
     }
 }

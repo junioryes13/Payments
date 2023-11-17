@@ -1,17 +1,17 @@
 package com.leonardo.payments.security.service;
 
+import com.leonardo.payments.excecao.RegraNegocioException;
 import com.leonardo.payments.model.DTO.PaymentRequest;
 import com.leonardo.payments.model.Payment;
-import com.leonardo.payments.model.PersonalReturn;
 import com.leonardo.payments.model.User;
 import com.leonardo.payments.repository.PaymentRepository;
 import com.leonardo.payments.repository.ShopkeeperRepository;
 import com.leonardo.payments.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -25,7 +25,7 @@ public class PaymentsService {
     private ShopkeeperRepository shopkeeperRepository;
 
 
-    public PersonalReturn makePayment(PaymentRequest payment) {
+    public Payment makePayment(PaymentRequest payment) {
         Optional<User> user = userRepository.findById(payment.getPayer());
         if (user.isPresent()) {
             if (balanceValidation(user.get(), payment.getValue())) {
@@ -33,14 +33,14 @@ public class PaymentsService {
                 userRepository.save(user.get());
                 Payment payment2 = new Payment(payment);
                 paymentRepository.save(payment2);
-                return new PersonalReturn(true, "sucesso", Optional.of(payment2));
+                return payment2;
 
             } else {
-                return new PersonalReturn(false, "saldo da conta insuficiente");
+                throw new IllegalArgumentException("O saldo disponivel para o pagador é insuficiente para realização da transferencia");
             }
         } else {
 
-            return new PersonalReturn(false, "Não foi encontrado nenhum usuario que possa realizar a transação com o ID informado ");
+            throw new RegraNegocioException("O id informado para o pagador não existe no banco de dados ou não pode realizar ");
         }
     }
 
