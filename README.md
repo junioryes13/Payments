@@ -1,4 +1,4 @@
-Introdução
+## Introdução
 
 Payments é uma API onde é póssivel realizar o cadastro e usuarios e lojistas, onde é possivel realizar transferencias entre usuarios e de usuarios para lojistas.
 
