@@ -14,19 +14,19 @@ public class PaymentRequest {
         return value;
     }
 
-    public int getPayer() {
+    public Integer getPayer() {
         return payer;
     }
 
-    public int getPayee() {
+    public Integer getPayee() {
         return payee;
     }
 
     @NotNull
-    private int payer;
+    private Integer payer;
 
     @NotNull
-    private int payee;
+    private Integer payee;
     public Payment toModel() {
         Payment payment = new Payment(this.value, this.payer, this.payee);
         return payment;
